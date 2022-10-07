@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct  7 06:44:03 2022
+
+@author: alyion
+"""
+from matplotlib_venn import venn2
+from matplotlib import pyplot as plt
+from matplotlib import font_manager
+#中文字體
+fontP = font_manager.FontProperties()
+fontP.set_family('SimHei')
+fontP.set_size(14)
+
+#input
+filepath = input("請輸入檔案位置\n（記得最後要加斜線）\n >>> ")
+filename1 = input("請輸入第一個txt檔案的名稱\n（不包含.txt） >>> ")
+filename2 = input("請輸入第二個txt檔案的名稱\n（不包含.txt） >>> ")
+
+#匯入檔案
+print("資料讀取中...")
+listA = []
+listB = []
+try:
+    with open(filepath+filename1+".txt") as f:
+        for line in f.readlines():
+            listA.append(line.rsplit())
+    print("資料讀取中...")   
+    with open(filepath+filename2+".txt") as f:
+        for line in f.readlines():
+            listB.append(line.rsplit())
+    listA =[x for item in listA for x in item]
+    listB =[x for item in listB for x in item]
+    # Venn2
+    print("venn plot繪圖中...")
+    print("預設檔案大小15＊15，300dpi...")
+    plt.figure(figsize=(15, 15), dpi=300)
+    font1 = {'color':'black','size':30} # use for title
+    font2 = {'size': 30} # use for labels
+    plt.rc('font', **font2) # sets the default font 
+    plt.rcParams['text.color'] = 'black' # changes default text colour
+    set_a = set(listA)
+    set_b = set(listB)
+    Aname = input("請輸入第一個檔案的標籤名稱\n僅供英文顯示 >>> ")
+    Bname = input("請輸入第二個檔案的標籤名稱\n僅供英文顯示 >>> ")
+    venn2(subsets=[set_a, set_b],
+          set_labels=[Aname, Bname], #標籤
+          set_colors=['red', 'blue']) #調顏色
+    outputname = input("請輸入檔案輸出名稱\n中英均可 >>> ")
+    choose_trans = input("背景是否透明？（是/否） >>> ")
+    if choose_trans == "是":
+        plt.savefig(filepath+outputname+".png", transparent=True)
+    else:
+        plt.savefig(filepath+outputname+".png")  
+    print("檔案存放於一開始輸入的路徑...")
+    plt.show()
+    print("檔案輸出完畢...")
+except Exception:
+    print("讀取失敗，路徑是否忘記加斜線或檢查檔案是否有問題！")
+
