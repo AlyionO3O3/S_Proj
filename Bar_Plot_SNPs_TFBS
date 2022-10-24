@@ -1,0 +1,19 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+TF = ["ATF2","ATF4","CEBPA","CEBPB","CEBPD","CREB1","CREM","E2F1","E2F4","EGR1","ELK4","ESRRA","FOS","FOSL1","FOSL2","FOXA2","FOXK2","GATA1","GATA2","GATA3"]
+NUM =  [4,1,0,281,0,2,0,1,1,0,3,0,73,0,2,5,0,1,2,18]
+
+df = pd.DataFrame({"Transcription Factors":TF,"SNP counts":NUM})
+df = df.sort_values(by = "SNP counts",ascending=False)
+
+
+plt.figure(figsize=(15, 10), dpi=300)
+plt.bar(df["Transcription Factors"], df["SNP counts"], color ='maroon', width = 0.7)
+plt.title("SNPs on Binding Sites", y=1.02, size = 30);
+plt.xlabel("Top 20 Transcription Factors", labelpad=10, size = 25)
+plt.ylabel("SNPs counts", labelpad=10, size = 25)
+plt.rc('xtick', labelsize=20)  
+plt.rc('ytick', labelsize=30)  
+plt.xticks(rotation=45)
+plt.show()
